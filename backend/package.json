@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "NodeJS Express Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -t 5000",
+    "start": "node index.js"
+  },
+  "author": "Sandra Nino",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status-code": "^2.1.0",
+    "mocha": "^8.0.1",
+    "superagent": "^5.3.1"
+  }
+}
