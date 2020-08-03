@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { editPost, fetchPosts } from '../actions';
 import './EditForm.css';
@@ -10,6 +11,7 @@ const EditForm = ({
   },
   editPost,
   fetchAllPosts,
+  loading,
   history,
 }) => {
   const [form, setForm] = useState({
@@ -20,13 +22,17 @@ const EditForm = ({
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (id) {
-      const post = posts.find((post) => post.id === Number(id));
-      setForm(post);
+    if (!posts.length) {
+      fetchAllPosts();
     } else {
-      setSearch(true);
+      if (id) {
+        const post = posts.find((post) => post.id === Number(id));
+        setForm(post);
+      } else {
+        setSearch(true);
+      }
     }
-  }, [posts, id]);
+  }, [fetchAllPosts, posts, id]);
 
   const handleOnChange = (event) => {
     if (message) {
@@ -71,15 +77,19 @@ const EditForm = ({
   return (
     <section className="section-edit">
       <h1>Edit Post</h1>
-      <form className="section-edit__form" onSubmit={handleOnSubmit}>
-        <label>Title</label>
-        <input name="title" value={form.title} onChange={handleOnChange} />
-        {!search && <label>Body</label>}
-        {!search && (
-          <textarea name="body" value={form.body} onChange={handleOnChange} />
-        )}
-        <button type="submit">Submit</button>
-      </form>
+      {loading ? (
+        <h2>Loading...</h2>
+      ) : (
+        <form className="section-edit__form" onSubmit={handleOnSubmit}>
+          <label>Title</label>
+          <input name="title" value={form.title} onChange={handleOnChange} />
+          {!search && <label>Body</label>}
+          {!search && (
+            <textarea name="body" value={form.body} onChange={handleOnChange} />
+          )}
+          <button type="submit">Submit</button>
+        </form>
+      )}
       {message ? alert(message) : null}
       <button
         type="button"
@@ -96,6 +106,7 @@ const EditForm = ({
 const mapStateToProps = (state) => {
   return {
     posts: state.posts,
+    loading: state.loading,
   };
 };
 

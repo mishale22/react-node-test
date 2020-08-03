@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './PostItem.css';
 
 const PostItem = (props) => {
@@ -13,6 +14,13 @@ const PostItem = (props) => {
       <p id="body">{props.body}</p>
     </article>
   );
+};
+
+PostItem.propTypes = {
+  history: PropTypes.object,
+  id: PropTypes.number,
+  title: PropTypes.string,
+  body: PropTypes.string,
 };
 
 export default PostItem;
