@@ -1,34 +1,36 @@
-import { takeLatest, call } from 'redux-saga/effects';
-import { expectSaga } from 'redux-saga-test-plan';
-import { throwError } from 'redux-saga-test-plan/providers';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import { getData } from '../../api/axios';
 import { fetchPosts, actionWatcher } from '../../sagas/index';
 import PostMock from '../../__mocks__/PostMock';
 import { postsSuccess, postsError } from '../../actions';
 
 describe('Sagas', () => {
-  const genObject = actionWatcher();
-  test('action watcher', () => {
+  test('ActionWatcher test', () => {
+    const genObject = actionWatcher();
     expect(genObject.next().value).toEqual(
       takeLatest('FETCH_POSTS', fetchPosts)
     );
   });
 
-  test('Fetch Posts success', () => {
-    const posts = [PostMock];
+  test('fetchPosts success', () => {
+    const genObject = fetchPosts();
+    const response = { data: { body: [PostMock] } };
 
-    return expectSaga(fetchPosts)
-      .provide([[call(getData), posts]])
-      .put(postsSuccess(posts))
-      .run();
+    expect(genObject.next().value).toEqual(call(getData));
+    expect(genObject.next(response).value).toEqual(
+      put(postsSuccess(response.data.body))
+    );
+    expect(genObject.next()).toEqual({ done: true, value: undefined }); //generator finished
   });
 
-  test('Fetch Posts error', () => {
-    const error = new Error('Internal Server Error');
+  test('fetchPosts failure', () => {
+    const genObject = fetchPosts();
+    const response = {};
 
-    return expectSaga(fetchPosts)
-      .provide([[call(getData), throwError(error)]])
-      .put(postsError(error.message))
-      .run();
+    expect(genObject.next().value).toEqual(call(getData));
+    expect(genObject.next(response).value).toEqual(
+      put(postsError('Internal Server Error'))
+    );
+    expect(genObject.next()).toEqual({ done: true, value: undefined }); //generator finished
   });
 });
