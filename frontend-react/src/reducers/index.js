@@ -1,10 +1,10 @@
 import { FETCH_POSTS, POSTS_SUCCESS, POSTS_ERROR, EDIT_POST } from '../types';
+
 const initialState = {
   posts: [],
   loading: false,
   error: '',
 };
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_POSTS:

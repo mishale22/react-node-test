@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Search from '../components/Search';
+import Search from '../containers/Home';
 import EditForm from '../components/EditForm';
 import './App.css';
 
