@@ -15,7 +15,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-status-code": "^2.1.0",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "superagent": "^5.3.1"
   }
 }
